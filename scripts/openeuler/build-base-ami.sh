@@ -115,8 +115,8 @@ cat << EOF > role-policy.json
             "s3:ListBucket"
          ],
          "Resource": [
-            "arn:aws:s3:::${BUCKET_NAME}",
-            "arn:aws:s3:::${BUCKET_NAME}/*"
+            "arn:aws-cn:s3:::${BUCKET_NAME}",
+            "arn:aws-cn:s3:::${BUCKET_NAME}/*"
          ]
       },
       {
@@ -129,8 +129,8 @@ cat << EOF > role-policy.json
             "s3:GetBucketAcl"
          ],
          "Resource": [
-            "arn:aws:s3:::${BUCKET_NAME}",
-            "arn:aws:s3:::${BUCKET_NAME}/*"
+            "arn:aws-cn:s3:::${BUCKET_NAME}",
+            "arn:aws-cn:s3:::${BUCKET_NAME}/*"
          ]
       },
       {

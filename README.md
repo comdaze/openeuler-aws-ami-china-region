@@ -43,7 +43,7 @@
 
     ```sh
     # Ubuntu / Debian
-    sudo apt install awscli jq qemu-utils parted fdisk util-linux
+    sudo apt install git awscli jq qemu-utils parted fdisk util-linux
     ```
 
     本仓库的脚本所使用的 Packer 版本需要大于等于 1.7，请按照 [官方下载](https://developer.hashicorp.com/packer/install) 可以采用Binary download 进行安装 Packer。
