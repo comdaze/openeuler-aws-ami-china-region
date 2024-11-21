@@ -68,7 +68,7 @@
 
 1. 初始化 `awscli` 并配置环境变量
 
-    - 执行 `aws configure`，填写 Access Key ID，Secret Key 并将区域设定为 `ap-northeast-1`。
+    - 执行 `aws configure`，填写 Access Key ID，Secret Key 并将区域设定为 `cn-northwest-1`。
     - 设定环境变量 `AWS_ACCESS_KEY_ID`，`AWS_SECRET_ACCESS_KEY`。
 
     ```sh
