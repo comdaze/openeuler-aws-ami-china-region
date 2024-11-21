@@ -41,95 +41,13 @@ function openeuler_aws {
     ${WORKINGDIR}/scripts/openeuler/build-ami.sh
 }
 
-function openeuler_hwcloud_base {
-    if [[ -z ${HWCLOUD_BASE:-} ]]; then
-        return
-    fi
-    if [[ -z "${OPENEULER_VERSION:-}" ]]; then
-        errcho "--version option not provided"
-        exit 1
-    fi
-    if [[ -z "${OPENEULER_ARCH:-}" ]]; then
-        OPENEULER_ARCH="aarch64"
-        echo "--arch option not provided, set to default aarch64"
-    fi
-    if [[ -z "${OBS_BUCKET:-}" ]]; then
-        errcho "--obs-bucket option not provided"
-        exit 1
-    fi
 
-    export OPENEULER_VERSION=${OPENEULER_VERSION} \
-        OPENEULER_ARCH=${OPENEULER_ARCH} \
-        BUCKET_NAME=${OBS_BUCKET} \
-        OPENEULER_MIRROR=${OPENEULER_MIRROR:-}
-
-    ${WORKINGDIR}/scripts/openeuler/build-base-image.sh
-    ${WORKINGDIR}/scripts/openeuler/build-hwcloud-base-image.sh
-}
-
-function openeuler_hwcloud {
-    if [[ -z ${HWCLOUD:-} ]]; then
-        return
-    fi
-    if [[ -z "${OPENEULER_VERSION:-}" ]]; then
-        errcho "--version option not provided"
-        exit 1
-    fi
-    if [[ -z "${OPENEULER_ARCH:-}" ]]; then
-        OPENEULER_ARCH="aarch64"
-        echo "--arch option not provided, set to default aarch64"
-    fi
-    if [[ -z "${SOURCE_IMAGE_ID:-}" ]]; then
-        errcho "--source option not provided"
-        exit 1
-    fi
-    if [[ -z "${VPC_ID:-}" ]]; then
-        errcho "--vpc option not provided"
-        exit 1
-    fi
-    if [[ -z "${SUBNET_ID:-}" ]]; then
-        errcho "--subnet option not provided"
-        exit 1
-    fi
-
-    export OPENEULER_VERSION=${OPENEULER_VERSION} \
-        OPENEULER_ARCH=${OPENEULER_ARCH} \
-        SOURCE_IMAGE_ID=${SOURCE_IMAGE_ID} \
-        VPC_ID=${VPC_ID} \
-        SUBNET_ID=${SUBNET_ID}
-
-    ${WORKINGDIR}/scripts/openeuler/build-hwcloud.sh
-}
-
-function openeuler_harvester {
-    if [[ -z ${HARVESTER:-} ]]; then
-        return
-    fi
-    if [[ -z "${OPENEULER_VERSION:-}" ]]; then
-        errcho "--version option not provided"
-        exit 1
-    fi
-    if [[ -z "${OPENEULER_ARCH:-}" ]]; then
-        OPENEULER_ARCH="x86_64"
-        echo "--arch option not provided, set to default x86_64"
-    fi
-
-    export OPENEULER_VERSION=${OPENEULER_VERSION} \
-        OPENEULER_ARCH=${OPENEULER_ARCH} \
-        OPENEULER_MIRROR=${OPENEULER_MIRROR:-}
-
-    ${WORKINGDIR}/scripts/openeuler/build-base-image.sh
-    ${WORKINGDIR}/scripts/openeuler/build-harvester.sh
-}
 
 function usage {
     echo "$0 - 构建 openEuler 云镜像"
     echo
     echo "USAGE: $0 [-h|--help]     显示帮助信息"
     echo '    [--aws]               构建 AWS AMI 镜像'
-    echo '    [--hwcloud-base]      构建华为云基础镜像'
-    echo '    [--hwcloud]           构建华为云镜像'
-    echo '    [--harvester]         构建 Harvester 镜像'
     echo '    [--version text]      openEuler 系统版本号'
     echo '    [--arch text]         openEuler 系统架构 (x86_64 / aarch64)'
     echo '    [--aws-owner-id text] AWS 帐号 Owner ID'
@@ -146,26 +64,6 @@ function usage {
     echo "    --version 24.03-LTS \\"
     echo "    --arch x86_64 \\"
     echo "    --aws-bucket <BUCKET_NAME>"
-    echo
-    echo "构建 HWCloud 基础云镜像 (鲲鹏):"
-    echo "$0 \\"
-    echo "    --hwcloud-base \\"
-    echo "    --version 24.03-LTS \\"
-    echo "    --arch aarch64 \\"
-    echo "    --obs-bucket <BUCKET_NAME>"
-    echo
-    echo "构建 HWCloud 公有云镜像 (鲲鹏):"
-    echo "$0 \\"
-    echo "    --hwcloud \\"
-    echo "    --version 24.03-LTS \\"
-    echo "    --arch aarch64 \\"
-    echo "    --source <BASE_IMAGE_ID>"
-    echo
-    echo "构建 Harvester 镜像:"
-    echo "$0 \\"
-    echo "    --harvester \\"
-    echo "    --version 24.03-LTS \\"
-    echo "    --arch aarch64"
 }
 
 while [[ $# -gt 0 ]]; do
@@ -173,18 +71,6 @@ while [[ $# -gt 0 ]]; do
     case $key in
     --aws)
         AWS="true"
-        shift
-        ;;
-    --hwcloud)
-        HWCLOUD="true"
-        shift
-        ;;
-    --hwcloud-base)
-        HWCLOUD_BASE="true"
-        shift
-        ;;
-    --harvester)
-        HARVESTER="true"
         shift
         ;;
     --version)
@@ -204,11 +90,6 @@ while [[ $# -gt 0 ]]; do
         ;;
     --aws-bucket)
         AWS_BUCKET="$2"
-        shift
-        shift
-        ;;
-    --obs-bucket)
-        OBS_BUCKET="$2"
         shift
         shift
         ;;
@@ -256,6 +137,3 @@ if [[ ${help:-} ]]; then
 fi
 
 openeuler_aws
-openeuler_hwcloud_base
-openeuler_hwcloud
-openeuler_harvester
