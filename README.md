@@ -4,7 +4,7 @@
 
 默认会在 AWS `cn-northwest-1` (宁夏) 和 `cn-north-1` (北京) 区域生成 AMI 镜像，可通过修改 [openeuler/aws/](/openeuler/aws/) 目录下的 Packer 配置文件指定 AMI 的生成区域。
 
-![](./docs/images/openeuler/generated-ami.png)
+![](./images/generated-ami.png)
 
 ## 构建流程
 
