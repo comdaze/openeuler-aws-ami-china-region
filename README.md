@@ -46,12 +46,15 @@
     sudo apt install awscli jq qemu-utils parted fdisk util-linux
     ```
 
-    本仓库的脚本所使用的 Packer 版本需要大于等于 1.7，请按照 [官方教程](https://developer.hashicorp.com/packer/tutorials/docker-get-started/get-started-install-cli#installing-packer) 安装 Packer。
+    本仓库的脚本所使用的 Packer 版本需要大于等于 1.7，请按照 [官方下载](https://developer.hashicorp.com/packer/install) 可以采用Binary download 进行安装 Packer。
 
-    安装 amazon ebs packer 依赖：
+    手动安装 amazon ebs packer 依赖插件，可以在[packer-plugin-amazon链接](https://github.com/hashicorp/packer-plugin-amazon/releases)下载
 
     ```sh
-    packer plugins install github.com/hashicorp/amazon
+    mkdir amazon & cd amazon
+    wget https://github.com/hashicorp/packer-plugin-amazon/releases/download/v1.3.3/packer-plugin-amazon_v1.3.3_x5.0_linux_amd64.zip
+    unzip packer-plugin-amazon_v1.3.3_x5.0_linux_amd64.zip
+    packer plugins install --path ./packer-plugin-amazon_v1.3.3_x5.0_linux_amd64 github.com/hashicorp/amazon
     ```
 
 1. 初始化 `awscli` 并配置环境变量
@@ -74,7 +77,7 @@
 1. 克隆此仓库代码
 
     ```sh
-    git clone https://github.com/cnrancher/euler-packer.git && cd euler-packer
+    git clone https://github.com/comdaze/openeuler-aws-ami-china-region.git && cd openeuler-aws-ami-china-region
     ```
 
 1. 其他
