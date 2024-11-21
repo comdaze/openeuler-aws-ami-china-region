@@ -35,23 +35,32 @@
 
     在构建镜像的过程中，需要使用 `qemu-nbd` 将 qcow2 格式的镜像的分区表加载至系统中，之后对根分区进行缩容和分区表调整，因此 `euler-packer` 的脚本仅支持在 Linux 系统上运行。
 
-    > 本仓库脚本使用系统 Debian 12
+    > 本仓库脚本使用系统 ubuntu 24.04
 
 1. 安装依赖
 
-    安装运行脚本所需的依赖：`docker`, `awscli`, `jq`, `qemu-utils`, `partprobe` (`parted`), `packer`, `fdisk`
+    安装运行脚本所需的依赖：`git`,`docker`, `awscli`, `jq`, `qemu-utils`, `partprobe` (`parted`), `packer`, `fdisk`
 
     ```sh
-    # Ubuntu / Debian
-    sudo apt install git awscli jq qemu-utils parted fdisk util-linux
+    sudo apt update && sudo apt upgrade -y
+    sudo apt install curl unzip -y
+    sudo apt install git jq qemu-utils parted fdisk util-linux -y
+    #安装awscli
+    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+    unzip awscliv2.zip
+    sudo ./aws/install
     ```
 
     本仓库的脚本所使用的 Packer 版本需要大于等于 1.7，请按照 [官方下载](https://developer.hashicorp.com/packer/install) 可以采用Binary download 进行安装 Packer。
-
+    ```sh
+    wget https://releases.hashicorp.com/packer/1.11.2/packer_1.11.2_linux_amd64.zip
+    unzip packer_1.11.2_linux_amd64.zip 
+    sudo mv packer /usr/bin
+    ```
     手动安装 amazon ebs packer 依赖插件，可以在[packer-plugin-amazon链接](https://github.com/hashicorp/packer-plugin-amazon/releases)下载
 
     ```sh
-    mkdir amazon & cd amazon
+    mkdir amazon && cd amazon
     wget https://github.com/hashicorp/packer-plugin-amazon/releases/download/v1.3.3/packer-plugin-amazon_v1.3.3_x5.0_linux_amd64.zip
     unzip packer-plugin-amazon_v1.3.3_x5.0_linux_amd64.zip
     packer plugins install --path ./packer-plugin-amazon_v1.3.3_x5.0_linux_amd64 github.com/hashicorp/amazon
