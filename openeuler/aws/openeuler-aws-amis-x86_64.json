@@ -1,0 +1,39 @@
+{
+    "variables": {
+        "version": "{{env `OPENEULER_VERSION`}}",
+        "arch": "{{env `OPENEULER_ARCH`}}",
+        "ami_id": "{{env `AWS_BASE_AMI`}}",
+        "owner_id": "{{env `AWS_BASE_AMI_OWNER_ID`}}",
+        "current_time": "{{env `CURRENT_TIME`}}"
+    },
+    "builders": [
+        {
+            "type": "amazon-ebs",
+            "name": "amazon-ebs-hvm-x86_64",
+            "region": "cn-northwest-1",
+            "ami_regions": [
+                "cn-northeast-1",
+                "cn-north-1"
+            ],
+            "source_ami": "{{user `ami_id`}}",
+            "source_ami_filter": {
+                "owners": ["{{user `owner_id`}}"]
+            },
+            "instance_type": "t3a.medium",
+            "ssh_username": "root",
+            "ssh_password": "openEuler12#$",
+            "ami_name": "openEuler-{{user `version`}}-x86_64-hvm-{{user `current_time`}}",
+            "ena_support": "true"
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "environment_vars": [
+                "VERSION={{user `version`}}",
+                "ARCH={{user `arch`}}"
+            ],
+            "script": "../../scripts/openeuler/packer/ami-install-cloud-init.sh"
+        }
+    ]
+}
