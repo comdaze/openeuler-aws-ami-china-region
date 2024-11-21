@@ -12,7 +12,7 @@
             "name": "amazon-ebs-hvm-arm64",
             "region": "cn-northwest-1",
             "ami_regions": [
-                "cn-northeast-1",
+                "cn-northwest-1",
                 "cn-north-1"
             ],
             "source_ami": "{{user `ami_id`}}",
